@@ -25,7 +25,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <div className="row ml-6">
+      <div className="row mx-auto">
         {cartProducts.map((product) => (
           <div key={product.id} className="col-md-6 mb-4">
             <div className="card mb-3" style={{ maxWidth: "540px" }}>
