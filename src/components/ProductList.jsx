@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Pagination } from "./Pagination";
+import { NavLink } from "react-router-dom";
 
 export const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState(products);
-  const [productsPerPage, setProductsPerPage] = useState(6);
-  const [currentPage, setCurrentPage] = useState(1);
+  //const [productsPerPage, setProductsPerPage] = useState(6);
+  //const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   let componentMounted = true;
   const productList = async () => {
@@ -30,6 +31,99 @@ export const ProductList = () => {
   const filterProduct = (cat) => {
     const updatedList = products.filter((x) => x.category === cat);
     setFilter(updatedList);
+  };
+
+  const searchProduct = (e) => {
+    console.log(e);
+    const updatedList = products.filter((x) =>
+      x.title.toLowerCase().includes(e.toLowerCase())
+    );
+    setFilter(updatedList);
+  };
+
+  const Carousel = () => {
+    // IDs de las imágenes que deseas mostrar en el carrusel
+    const desiredIds = [1, 2, 3, 4, 7, 9, 12, 16, 17, 18, 19, 20]; // Puedes ajustar estos IDs según tus necesidades
+
+    // Filtra solo las imágenes que tienen IDs en el conjunto desiredIds
+    const filteredImages = filter.filter((product) =>
+      desiredIds.includes(product.id)
+    );
+
+    return (
+      <div id="carouselExampleCaptions" className="carousel slide my-2">
+        <div className="carousel-inner">
+          {filteredImages.map((product, index) => (
+            <div
+              key={index}
+              className={`carousel-item ${index === 0 ? "active" : ""}`}
+            >
+              <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ height: "100%" }}
+              >
+                <img
+                  src={product.image}
+                  className="d-block mx-auto"
+                  style={{ maxWidth: "25%", maxHeight: "25%" }}
+                  alt={`Slide ${index + 1}`}
+                />
+              </div>
+              <div className="carousel-caption d-none d-md-block text-secondary fw-bold">
+                <h5>{product.title}</h5>
+                <p>{product.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          className="carousel-control-prev btn btn-outline-dark"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="prev"
+        >
+          <i className="fa-solid fa-chevron-left"></i>
+        </button>
+        <button
+          className="carousel-control-next btn btn-outline-dark"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="next"
+        >
+          <i className="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    );
+  };
+
+  const SearchBox = () => {
+    const [search, setSearch] = useState("");
+    return (
+      <>
+        <div className="card-body d-flex justify-content-between py-5">
+          <div className="input-group input-group-lg">
+            <input
+              type="text"
+              className="form-control form-control-lg rounded"
+              placeholder="Search"
+              aria-label="Search"
+              aria-describedby="basic-addon2"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+            <button
+              className="btn btn-outline-dark me-2"
+              onClick={() => {
+                searchProduct(search);
+              }}
+            >
+              <i className="fa fa-search fa-lg"></i>
+            </button>
+          </div>
+        </div>
+      </>
+    );
   };
 
   const ShowProducts = () => {
@@ -83,9 +177,12 @@ export const ProductList = () => {
                       {product.title.substring(0, 12)}...
                     </h5>
                     <p className="card-text lead fw-bold">${product.price}</p>
-                    <a href="#" className="btn btn-outline-dark">
+                    <NavLink
+                      to={`/products/${product.id}`}
+                      className="btn btn-outline-dark"
+                    >
                       Buy Now
-                    </a>
+                    </NavLink>
                   </div>
                 </div>
               </div>
@@ -98,11 +195,13 @@ export const ProductList = () => {
 
   return (
     <>
-      <div className="container my-5 py-5">
+      <Carousel />
+      <div className="container my-3 py-3">
         <div className="row">
-          <div className="col-12 mb-5">
+          <div className="col-12 mb-1">
             <h1 className="display-6 fw-bolder text-center">Latest Products</h1>
             <hr />
+            <SearchBox />
           </div>
         </div>
         <div className="row justify-content-center">

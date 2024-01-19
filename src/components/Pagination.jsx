@@ -1,5 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export const Pagination = () => {
-  return <div>pagination</div>
+  return (
+    <div>
+      <div className="col-mb-6">searchBox</div>
+    </div>
+  );
 };
