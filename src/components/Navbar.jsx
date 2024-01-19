@@ -2,8 +2,13 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export const Navbar = () => {
+export const Navbar = ({ setToken }) => {
   const state = useSelector((state) => state.handleCart);
+
+  const logOuthandler = () => {
+    setToken("");
+    localStorage.clear();
+  };
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-white py-2 shadow-sm">
@@ -56,15 +61,13 @@ export const Navbar = () => {
               </li>
             </ul>
             <div className="buttons">
-              <NavLink to="/login" className="btn btn-outline-dark">
+              <button
+                className="btn btn-outline-dark"
+                onClick={() => logOuthandler()}
+              >
                 <i className="fa fa-sign-in me-1"></i>
-                Login
-              </NavLink>
-
-              <NavLink to="/register" className="btn btn-outline-dark ms-2">
-                <i className="fa fa-user-plus me-1"></i>
-                Register
-              </NavLink>
+                Logout
+              </button>
 
               <NavLink to="/cart" className="btn btn-outline-dark ms-2">
                 <i className="fa fa-cart-shopping me-1"></i>
