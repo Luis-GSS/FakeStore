@@ -19,6 +19,9 @@ export const Navbar = ({ setToken }) => {
           >
             FakeStore
           </NavLink>
+          <NavLink to="/cart" className="btn btn-outline-dark mr-2">
+            <i className="fa fa-cart-shopping mr-1"></i>({state.length})
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -68,11 +71,6 @@ export const Navbar = ({ setToken }) => {
                 <i className="fa fa-sign-in me-1"></i>
                 Logout
               </button>
-
-              <NavLink to="/cart" className="btn btn-outline-dark ms-2">
-                <i className="fa fa-cart-shopping me-1"></i>
-                Cart ({state.length})
-              </NavLink>
             </div>
           </div>
         </div>
